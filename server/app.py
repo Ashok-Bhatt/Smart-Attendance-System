@@ -9,6 +9,7 @@ from flask_pymongo import PyMongo
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 
 load_dotenv()
@@ -17,11 +18,14 @@ load_dotenv()
 connection_string = os.getenv("DATABASE_URI")
 
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:5173"])
 app.config["MONGO_URI"] = connection_string
 mongo = PyMongo(app)
 
+
 image_size = (128, 128)
 celebrity_names = ['Angelina Jolie','Brad Pitt','Denzel Washington','Hugh Jackman','Jennifer Lawrence','Johnny Depp','Kate Winslet','Leonardo DiCaprio','Megan Fox','Natalie Portman','Nicole Kidman','Robert Downey Jr','Sandra Bullock','Scarlett Johansson','Tom Cruise','Tom Hanks','Will Smith']
+celebrity_ids = [100+i for i in range(len(celebrity_names))]
 
 # Loading a model
 model = tf.keras.models.load_model('./celebrity_reecognition.keras')
@@ -53,7 +57,7 @@ def recognize_face():
         confidence = prediction[0][max_score_index]
         prediction = celebrity_names[max_score_index]
 
-        if (confidence > 0.8):
+        if (confidence > 0.9):
 
             today = datetime.today().strftime("%Y-%m-%d")
 
@@ -122,12 +126,14 @@ def get_daily_attendance(date):
 
     try:
         daily_attendance = mongo.db.attendance.find({"date" : date})
-        attendance_record = {celebrity : False for celebrity in celebrity_names}
+        present_celebrities = []
 
         for record in daily_attendance:
             for user in record["users"]:
                 username = user["name"]
-                attendance_record[username] = True
+                present_celebrities.append(username)
+
+        attendance_record = [{"id": celebrity_ids[i], "name": celebrity_names[i], "status" : True if (celebrity_names[i] in present_celebrities) else False} for i in range(len(celebrity_names))]
 
         return json.dumps(attendance_record)
     except:
