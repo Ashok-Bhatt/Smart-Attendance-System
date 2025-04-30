@@ -1,0 +1,7 @@
+
+# Excluding heavy ML or neural network models as github file size limit is 100MB
+server/models
+
+#Excluding sensitive files
+.env
+*.env
