@@ -28,7 +28,7 @@ celebrity_names = ['Ashok', 'Priyansh', 'Vrajesh']
 celebrity_ids = [100+i for i in range(len(celebrity_names))]
 
 # Loading a model
-model = tf.keras.models.load_model('./student_recogintion.keras')
+model = tf.keras.models.load_model('./student_recognition.keras')
 
 @app.route("/")
 def home():
@@ -157,9 +157,6 @@ def get_user_attendance_history(username):
         return json.dumps(attendance_history)
     except:
         return {"error! cannot get daily attendance"}, 400
-
-
-
 
 if __name__=="__main__":
     app.run(debug=True)
