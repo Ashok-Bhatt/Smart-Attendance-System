@@ -95,7 +95,7 @@ const SmartAttendance = () => {
                     context.stroke();
                     context.font = "20px courier";
                     context.fillStyle = (res.data["confidence"] > 0.98) ? 'lime' : 'red';
-                    context.fillText(`${res.data["prediction"]} (${Number.parseFloat(res.data["confidence"]*100).toFixed(2)})`, box.x, box.y-25);
+                    context.fillText((res.data["confidence"] > 0.98) ? `${res.data["prediction"]} (${Number.parseFloat(res.data["confidence"]*100).toFixed(2)})` : "", box.x, box.y-25);
 
                     if (res.data["confidence"] > 0.98){
                         for (let i=0; i<recognizedStudents.current.length; i++){

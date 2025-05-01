@@ -28,7 +28,7 @@ celebrity_names = ['Ashok', 'Priyansh', 'Vrajesh']
 celebrity_ids = [100+i for i in range(len(celebrity_names))]
 
 # Loading a model
-model = tf.keras.models.load_model('./student_recognition.keras')
+model = tf.keras.models.load_model('./models/student_recognition.keras')
 
 @app.route("/")
 def home():
