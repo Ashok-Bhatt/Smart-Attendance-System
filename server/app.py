@@ -18,7 +18,7 @@ load_dotenv()
 connection_string = os.getenv("DATABASE_URI")
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"])
+CORS(app, origins=[os.getenv("CLIENT_URL")])
 app.config["MONGO_URI"] = connection_string
 mongo = PyMongo(app)
 

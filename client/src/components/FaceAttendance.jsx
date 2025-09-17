@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import axios from 'axios';
 import * as faceapi from "face-api.js";
+import { serverBaseUrl } from '../config.js';
 
 const SmartAttendance = () => {
 
@@ -33,7 +34,7 @@ const SmartAttendance = () => {
     // Fetching attendance data stored in database
     useEffect(()=>{
         const current_date = getCurrentDate()
-        axios.get(`http://127.0.0.1:5000/get_daily_attendance/${current_date}`)
+        axios.get(`${serverBaseUrl}/get_daily_attendance/${current_date}`)
         .then((res)=>{
             const data = res.data;
             recognizedStudents.current = data;
@@ -85,7 +86,7 @@ const SmartAttendance = () => {
         
                 // Send to backend
                 try {
-                    const res = await axios.post("http://127.0.0.1:5000/recognize_face/", {
+                    const res = await axios.post(`${serverBaseUrl}/recognize_face/`, {
                         image_base64: faceBase64,
                     });
                     context.beginPath();
@@ -168,8 +169,6 @@ const SmartAttendance = () => {
             </div>
         </div>
     </div>
-    
-
     );
 };
 
