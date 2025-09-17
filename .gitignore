@@ -1,10 +1,5 @@
+#Excluding entire data folder 
+data/*
 
 # Excluding all .keras files to avoid heavy ML or neural network models as github file size limit is 100MB
 **/*.keras
-
-#Excluding sensitive files
-.env
-*.env
-
-#Excluding entire data folder 
-data/*

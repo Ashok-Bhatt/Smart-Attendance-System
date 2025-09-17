@@ -7,11 +7,11 @@ const SmartAttendance = () => {
 
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
-    const screenshot_interval = 1;
+    const screenshotInterval = 1;
+    const minimumRequiredConfidence = 0.98;
 
     const [time, setTime] = useState(new Date());
 
-    const [isPresent, setIsPresent] = useState(true); // toggle manually for now
     const recognizedStudents = useRef([]);
     const getCurrentDate = ()=>{
 
@@ -94,10 +94,10 @@ const SmartAttendance = () => {
                     context.rect(box.x, box.y, box.width, box.height);
                     context.stroke();
                     context.font = "20px courier";
-                    context.fillStyle = (res.data["confidence"] > 0.98) ? 'lime' : 'red';
-                    context.fillText((res.data["confidence"] > 0.98) ? `${res.data["prediction"]} (${Number.parseFloat(res.data["confidence"]*100).toFixed(2)})` : "", box.x, box.y-25);
+                    context.fillStyle = (res.data["confidence"] > minimumRequiredConfidence) ? 'lime' : 'red';
+                    context.fillText((res.data["confidence"] > minimumRequiredConfidence) ? `${res.data["prediction"]} (${Number.parseFloat(res.data["confidence"]*100).toFixed(2)})` : "", box.x, box.y-25);
 
-                    if (res.data["confidence"] > 0.98){
+                    if (res.data["confidence"] > minimumRequiredConfidence){
                         for (let i=0; i<recognizedStudents.current.length; i++){
                             if (recognizedStudents.current[i]["name"] == res.data["prediction"]){
                                 recognizedStudents.current[i]["status"] = true;
@@ -108,7 +108,7 @@ const SmartAttendance = () => {
                     console.error(`Error recognizing face ${i + 1}:`, err);
                 }
             }
-        }, screenshot_interval*1000);
+        }, screenshotInterval*1000);
     }, [])
 
     return (

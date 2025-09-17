@@ -1,0 +1,10 @@
+flask==3.0.3
+flask-cors==5.0.0
+flask-pymongo==3.0.1
+tensorflow==2.17.0
+numpy==1.26.4
+pillow==10.4.0
+python-dotenv==1.0.1
+requests==2.32.3
+huggingface_hub==0.25.2
+gunicorn==23.0.0
