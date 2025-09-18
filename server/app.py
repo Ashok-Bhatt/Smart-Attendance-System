@@ -61,7 +61,7 @@ def recognize_face():
 
         result = {
             "confidence" : float(confidence),
-            "prediction" : prediction
+            "prediction" : celebrity_names[prediction]
         }
 
         return json.dumps(result)
