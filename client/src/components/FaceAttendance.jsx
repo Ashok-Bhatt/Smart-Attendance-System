@@ -49,7 +49,6 @@ const SmartAttendance = () => {
             const imageSrc = webcamRef.current.getScreenshot();
             const canvas = canvasRef.current;
             const context = canvas.getContext("2d");
-            const image_base64 = imageSrc.split(",")[1];
     
             // Loading models
             await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
@@ -75,7 +74,9 @@ const SmartAttendance = () => {
                 console.log("No face detected!");
                 return;
             } 
-                
+              
+            console.log("Face detected!")
+
             // Extract each face
             const faceCanvases = await faceapi.extractFaces(img, detections);
             
